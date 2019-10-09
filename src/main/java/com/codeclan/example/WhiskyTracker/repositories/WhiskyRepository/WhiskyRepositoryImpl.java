@@ -1,6 +1,5 @@
 package com.codeclan.example.WhiskyTracker.repositories.WhiskyRepository;
 
-
 import com.codeclan.example.WhiskyTracker.models.Whisky;
 import org.hibernate.Criteria;
 import org.hibernate.Session;
@@ -34,6 +33,17 @@ public class WhiskyRepositoryImpl implements WhiskyRepositoryCustom {
         cr.createAlias("distillery", "distillery");
         cr.add(Restrictions.eq("distillery.id", id));
         cr.add(Restrictions.eq("age", age));
+        results = cr.list();
+        return results;
+    }
+
+    @Transactional
+    public List<Whisky> getWhiskyByRegion(String region) {
+        List<Whisky> results = null;
+        Session session = entityManager.unwrap(Session.class);
+        Criteria cr = session.createCriteria(Whisky.class);
+        cr.createAlias("distillery", "distillery");
+        cr.add(Restrictions.eq("distillery.region", region));
         results = cr.list();
         return results;
     }
