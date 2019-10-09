@@ -1,6 +1,7 @@
 package com.codeclan.example.WhiskyTracker.repositories.DistilleryRepository;
 
 import com.codeclan.example.WhiskyTracker.models.Distillery;
+import com.codeclan.example.WhiskyTracker.models.Whisky;
 import org.hibernate.Criteria;
 import org.hibernate.Session;
 import org.hibernate.criterion.Restrictions;
@@ -21,6 +22,18 @@ public class DistilleryRepositoryImpl implements DistilleryRepositoryCustom {
         Session session = entityManager.unwrap(Session.class);
         Criteria cr = session.createCriteria(Distillery.class);
         cr.add(Restrictions.eq("region", region));
+        results = cr.list();
+        return results;
+    }
+
+    @Transactional
+    public List<Distillery> getWhiskyByAge(Long id, int age) {
+        List<Distillery> results = null;
+        Session session = entityManager.unwrap(Session.class);
+        Criteria cr = session.createCriteria(Distillery.class);
+        cr.createAlias("whisky", "whisky");
+        cr.add(Restrictions.eq("id", id));
+        cr.add(Restrictions.eq("age", age));
         results = cr.list();
         return results;
     }
