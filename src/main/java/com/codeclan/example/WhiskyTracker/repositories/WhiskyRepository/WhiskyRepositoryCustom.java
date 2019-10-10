@@ -6,7 +6,9 @@ import java.util.List;
 
 public interface WhiskyRepositoryCustom {
 
+    //Custom queries always done in custom repo
+
     List<Whisky> getWhiskyByYear(int year);
-    List<Whisky> getWhiskyFromADistilleryByAge(Long id, int age);
+    List<Whisky> getWhiskyFromADistilleryByAge(Long distilleryId, int age);
     List<Whisky> getWhiskyByRegion(String Region);
 }

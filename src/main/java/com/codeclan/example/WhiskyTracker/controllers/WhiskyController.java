@@ -22,9 +22,9 @@ public class WhiskyController {
         return whiskyRepository.getWhiskyByYear(year);
     }
 
-    @GetMapping(value = "distillery/{id}/age/{age}")
-    public List<Whisky> getWhiskyFromADistilleryByAge(@PathVariable Long id, @PathVariable int age) {
-        return whiskyRepository.getWhiskyFromADistilleryByAge(id, age);
+    @GetMapping(value = "distillery/{distilleryId}/age/{age}")
+    public List<Whisky> getWhiskyFromADistilleryByAge(@PathVariable Long distilleryId, @PathVariable int age) {
+        return whiskyRepository.getWhiskyFromADistilleryByAge(distilleryId, age);
     }
 
     @GetMapping(value = "region/{region}")

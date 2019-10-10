@@ -2,6 +2,7 @@ package com.codeclan.example.WhiskyTracker.repositories.WhiskyRepository;
 
 import com.codeclan.example.WhiskyTracker.models.Whisky;
 import org.hibernate.Criteria;
+import org.hibernate.HibernateException;
 import org.hibernate.Session;
 import org.hibernate.criterion.Restrictions;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -19,21 +20,33 @@ public class WhiskyRepositoryImpl implements WhiskyRepositoryCustom {
     public List<Whisky> getWhiskyByYear(int year) {
         List<Whisky> results = null;
         Session session = entityManager.unwrap(Session.class);
-        Criteria cr = session.createCriteria(Whisky.class);
-        cr.add(Restrictions.eq("year", year));
-        results = cr.list();
+
+        try {
+            Criteria cr = session.createCriteria(Whisky.class);
+            cr.add(Restrictions.eq("year", year));
+            results = cr.list();
+        } catch (HibernateException e) {
+            e.printStackTrace();
+        }
+
         return results;
     }
 
     @Transactional
-    public List<Whisky> getWhiskyFromADistilleryByAge(Long id, int age) {
+    public List<Whisky> getWhiskyFromADistilleryByAge(Long distilleryId, int age) {
         List<Whisky> results = null;
         Session session = entityManager.unwrap(Session.class);
-        Criteria cr = session.createCriteria(Whisky.class);
-        cr.createAlias("distillery", "distillery");
-        cr.add(Restrictions.eq("distillery.id", id));
-        cr.add(Restrictions.eq("age", age));
-        results = cr.list();
+
+        try {
+            Criteria cr = session.createCriteria(Whisky.class);
+            cr.createAlias("distillery", "distilleryAlias");
+            cr.add(Restrictions.eq("distilleryAlias.id", distilleryId));
+            cr.add(Restrictions.eq("age", age));
+            results = cr.list();
+        } catch (HibernateException e) {
+            e.printStackTrace();
+        }
+
         return results;
     }
 
@@ -41,10 +54,16 @@ public class WhiskyRepositoryImpl implements WhiskyRepositoryCustom {
     public List<Whisky> getWhiskyByRegion(String region) {
         List<Whisky> results = null;
         Session session = entityManager.unwrap(Session.class);
-        Criteria cr = session.createCriteria(Whisky.class);
-        cr.createAlias("distillery", "distillery");
-        cr.add(Restrictions.eq("distillery.region", region));
-        results = cr.list();
+
+        try {
+            Criteria cr = session.createCriteria(Whisky.class);
+            cr.createAlias("distillery", "distilleryAlias");
+            cr.add(Restrictions.eq("distilleryAlias.region", region));
+            results = cr.list();
+        } catch (HibernateException e) {
+            e.printStackTrace();
+        }
+
         return results;
     }
 }
