@@ -24,7 +24,7 @@ public class DistilleryController {
     }
 
     @GetMapping(value = "age/{age}")
-    public List<Distillery> getWhiskyByAge(@PathVariable Long id, @PathVariable int age) {
-        return distilleryRepository.getWhiskyByAge(id, age);
+    public List<Distillery> getWhiskyByAge(@PathVariable int age) {
+        return distilleryRepository.getWhiskyByAge(age);
     }
 }
